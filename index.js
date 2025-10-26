@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+
+// Gunakan port dari Railway / environment variable
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 
@@ -126,4 +128,5 @@ app.get('/api/programKerja/:bidangId', (req, res) => {
   res.json(programs);
 });
 
-app.listen(port, () => console.log(`API running at http://localhost:${port}`));
+// Listen dengan port dinamis
+app.listen(port, () => console.log(`API running at port ${port}`));
