@@ -4,6 +4,8 @@ const app = express();
 
 // Gunakan port dari Railway / environment variable
 const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`API running at port ${port}`));
+
 
 app.use(cors());
 
