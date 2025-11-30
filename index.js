@@ -102,6 +102,6 @@ app.get("/", (req, res) => {
 
 // ======================== LISTEN (HARUS SATU) ========================
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`API running on port ${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`API running at http://0.0.0.0:${port}`);
 });
