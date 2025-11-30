@@ -1,11 +1,16 @@
-const express = require("express");
-const cors = require("cors");
-
+const express = require('express');
+const cors = require('cors');
 const app = express();
+
+// Gunakan port dari Railway / environment variable
+const port = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
 
-// ======================== DATA BIDANG ========================
+// =========================
+// DATA BIDANG
+// =========================
 const bidang = [
   { id: 1, nama: "Bidang Humas" },
   { id: 2, nama: "Bidang Kegiatan" },
@@ -59,49 +64,72 @@ const bidang = [
   { id: 50, nama: "Bidang Startup & Inovasi" }
 ];
 
-// ======================== DATA PROGRAM KERJA ========================
+// =========================
+// DATA PROGRAM KERJA
+// =========================
 const programKerja = [
-  // Bidang 1
+  // Bidang 1: Humas
   { id: 1, bidangId: 1, judul: "Sosialisasi Event", deskripsi: "Promosi kegiatan organisasi", tanggal: "2025-11-01" },
   { id: 2, bidangId: 1, judul: "Press Release", deskripsi: "Membuat press release kegiatan", tanggal: "2025-11-03" },
   { id: 3, bidangId: 1, judul: "Media Partner", deskripsi: "Kerjasama dengan media lokal", tanggal: "2025-11-05" },
   { id: 4, bidangId: 1, judul: "Kampanye Digital", deskripsi: "Promosi via sosial media", tanggal: "2025-11-07" },
   { id: 5, bidangId: 1, judul: "Branding Organisasi", deskripsi: "Membuat identitas visual organisasi", tanggal: "2025-11-09" },
 
-  // Bidang 2
+  // Bidang 2: Kegiatan
   { id: 6, bidangId: 2, judul: "Festival Tahunan", deskripsi: "Mengorganisir festival tahunan", tanggal: "2025-11-02" },
-  { id: 7, bidangId: 2, judul: "Workshop Kreatif", deskripsi: "Workshop kreatif anggota", tanggal: "2025-11-04" },
-  { id: 8, bidangId: 2, judul: "Pertemuan Rutin", deskripsi: "Rapat rutin", tanggal: "2025-11-06" },
+  { id: 7, bidangId: 2, judul: "Workshop Kreatif", deskripsi: "Workshop untuk anggota", tanggal: "2025-11-04" },
+  { id: 8, bidangId: 2, judul: "Pertemuan Rutin", deskripsi: "Rapat bulanan kegiatan", tanggal: "2025-11-06" },
+  { id: 9, bidangId: 2, judul: "Outbond Anggota", deskripsi: "Kegiatan outdoor untuk bonding", tanggal: "2025-11-08" },
+  { id: 10, bidangId: 2, judul: "Lomba Internal", deskripsi: "Mengadakan lomba antar anggota", tanggal: "2025-11-10" },
 
-  // Bidang 3
-  { id: 9, bidangId: 3, judul: "Laporan Keuangan", deskripsi: "Laporan bulanan", tanggal: "2025-11-03" },
-  { id: 10, bidangId: 3, judul: "Audit Internal", deskripsi: "Audit internal", tanggal: "2025-11-05" },
-  { id: 11, bidangId: 3, judul: "Budget Planning", deskripsi: "Perencanaan anggaran", tanggal: "2025-11-07" }
+  // Bidang 3: Keuangan
+  { id: 11, bidangId: 3, judul: "Laporan Keuangan", deskripsi: "Membuat laporan bulanan", tanggal: "2025-11-03" },
+  { id: 12, bidangId: 3, judul: "Audit Internal", deskripsi: "Audit untuk transparansi", tanggal: "2025-11-05" },
+  { id: 13, bidangId: 3, judul: "Budget Planning", deskripsi: "Perencanaan anggaran tahun depan", tanggal: "2025-11-07" },
+  { id: 14, bidangId: 3, judul: "Pengumpulan Dana", deskripsi: "Mengorganisir fundraising", tanggal: "2025-11-09" },
+  { id: 15, bidangId: 3, judul: "Evaluasi Pengeluaran", deskripsi: "Review pengeluaran bulanan", tanggal: "2025-11-11" },
 
-  // (Jika perlu, tambahkan lanjutannya — tapi API tetap jalan)
+  // Bidang 4: IT
+  { id: 16, bidangId: 4, judul: "Upgrade Website", deskripsi: "Perbaikan tampilan website", tanggal: "2025-11-04" },
+  { id: 17, bidangId: 4, judul: "Aplikasi Mobile", deskripsi: "Membuat aplikasi anggota", tanggal: "2025-11-06" },
+  { id: 18, bidangId: 4, judul: "Database Management", deskripsi: "Update dan backup database", tanggal: "2025-11-08" },
+  { id: 19, bidangId: 4, judul: "Keamanan Sistem", deskripsi: "Audit keamanan IT", tanggal: "2025-11-10" },
+  { id: 20, bidangId: 4, judul: "Integrasi Cloud", deskripsi: "Migrasi layanan ke cloud", tanggal: "2025-11-12" },
+
+  // Bidang 5: Pendidikan
+  { id: 21, bidangId: 5, judul: "Pelatihan Anggota", deskripsi: "Pelatihan anggota baru", tanggal: "2025-11-05" },
+  { id: 22, bidangId: 5, judul: "Seminar Pendidikan", deskripsi: "Mengundang pembicara ahli", tanggal: "2025-11-07" },
+  { id: 23, bidangId: 5, judul: "Bimbingan Belajar", deskripsi: "Pendampingan belajar", tanggal: "2025-11-09" },
+  { id: 24, bidangId: 5, judul: "Workshop Skill", deskripsi: "Pengembangan skill", tanggal: "2025-11-11" },
+  { id: 25, bidangId: 5, judul: "Evaluasi Pendidikan", deskripsi: "Review pendidikan", tanggal: "2025-11-13" },
+
+  // Bidang 6—50 (pattern)
+  { id: 26, bidangId: 6, judul: "Program 1 Bidang 6", deskripsi: "Deskripsi Program 1 Bidang 6", tanggal: "2025-11-06" },
+  { id: 27, bidangId: 6, judul: "Program 2 Bidang 6", deskripsi: "Deskripsi Program 2 Bidang 6", tanggal: "2025-11-07" },
+  { id: 28, bidangId: 6, judul: "Program 3 Bidang 6", deskripsi: "Deskripsi Program 3 Bidang 6", tanggal: "2025-11-08" },
+  { id: 29, bidangId: 6, judul: "Program 4 Bidang 6", deskripsi: "Deskripsi Program 4 Bidang 6", tanggal: "2025-11-09" },
+  { id: 30, bidangId: 6, judul: "Program 5 Bidang 6", deskripsi: "Deskripsi Program 5 Bidang 6", tanggal: "2025-11-10" }
 ];
 
-// ======================== ENDPOINT ========================
+// =========================
+// ENDPOINT
+// =========================
 
-// Semua bidang
-app.get("/api/bidang", (req, res) => {
+// GET semua bidang
+app.get('/api/bidang', (req, res) => {
   res.json(bidang);
 });
 
-// Program kerja per bidang
-app.get("/api/programKerja/:bidangId", (req, res) => {
+// GET program kerja berdasarkan bidangId
+app.get('/api/programKerja/:bidangId', (req, res) => {
   const bidangId = parseInt(req.params.bidangId);
   const programs = programKerja.filter(p => p.bidangId === bidangId);
   res.json(programs);
 });
 
-// Root (optional)
-app.get("/", (req, res) => {
-  res.json({ message: "API is running", endpoints: ["/api/bidang", "/api/programKerja/:bidangId"] });
-});
-
-// ======================== LISTEN (HARUS SATU) ========================
-const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`API running at http://0.0.0.0:${port}`);
+// =========================
+// START SERVER
+// =========================
+app.listen(port, () => {
+  console.log(`API running at port ${port}`);
 });
